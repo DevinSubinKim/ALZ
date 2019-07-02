@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- JAVA와 연결할 Mapper 파일 설정 -->
+<mapper namespace="poly.persistance.mapper.NoticeMapper">
+	<select id="getNoticeList" resultType="NoticeDTO">
+		SELECT 
+			NOTICE_NO AS noticeNo,
+			NOTICE_TITLE AS noticeTitle,
+			NOTICE_WRITER AS noticeWriter,
+			NOTICE_COUNT AS noticeCount,
+			NOTICE_REGDATE AS regDate
+		FROM
+			alz_notice
+	</select>
+	<update id="updateNoticeCount" parameterType="string">
+		UPDATE 
+			alz_notice
+		SET 
+			NOTICE_COUNT=NOTICE_COUNT+1
+		WHERE 
+			NOTICE_NO=#{noticeNo}
+	</update>
+	<insert id="insertNotice" parameterType="NoticeDTO">
+		INSERT INTO alz_notice
+		(
+			NOTICE_TITLE,
+			NOTICE_CONTENT,
+			NOTICE_WRITER,
+			NOTICE_COUNT,
+			NOTICE_REGDATE,
+			NOTICE_REGNO
+		)
+		VALUES
+		(
+			#{noticeTitle},
+			#{noticeContent},
+			#{noticeWriter},
+			0,
+			now(),
+			#{regNo}
+		)
+	</insert>
+	<select id="getNoticeDetail" parameterType="NoticeDTO" resultType="NoticeDTO">
+		SELECT
+			NOTICE_NO AS noticeNo,
+			NOTICE_TITLE AS noticeTitle,
+			NOTICE_CONTENT AS noticeContent,
+			IFNULL(NOTICE_COUNT,0) AS noticeCount,
+			NOTICE_REGDATE AS regDate,
+			NOTICE_REGNO AS regNo,
+			NOTICE_UPDDATE AS updDate,
+			NOTICE_UPDNO AS updNo
+		FROM
+			alz_notice
+		WHERE
+			NOTICE_NO=#{noticeNo}
+	</select>
+	<delete id="deleteNotice" parameterType="string">
+		DELETE
+		FROM
+			alz_notice
+		WHERE
+			NOTICE_NO=#{noticeNo}
+	</delete>
+	<update id="updateNotice" parameterType="NoticeDTO">
+		UPDATE
+			alz_notice
+		SET
+			NOTICE_TITLE=#{noticeTitle},
+			NOTICE_CONTENT=#{noticeContent},
+			NOTICE_UPDDATE=now(),
+			NOTICE_UPDNO=#{regNo}
+		WHERE
+			NOTICE_NO=#{noticeNo}
+	</update>
+</mapper>

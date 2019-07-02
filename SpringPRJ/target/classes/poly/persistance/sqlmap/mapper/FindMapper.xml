@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="poly.persistance.mapper.FindMapper">
+<select id="getGugunList" resultType="GugunDTO">
+SELECT
+	SIDO_CODE AS sidoCd,
+	SIDO_NAME AS sidoCdNm,
+	SIGUNGU_CODE AS sgguCd,
+	SIGUNGU_NAME AS sgguCdNm
+FROM
+	alz_sigungu
+WHERE
+	SIDO_CODE = #{sidoCd}
+</select>
+
+<select id="getHospSearch" resultType="ApiDTO">
+SELECT
+	ALZ_NO AS alz_no,
+	ALZ_NAME AS alz_name,
+	ALZ_TEL AS alz_tel,
+	ALZ_ADDR_ROAD AS alz_addr_road
+FROM
+	alz_center
+WHERE
+	SIDO_CODE=#{sido_code} and SIGUNGU_CODE=#{sigungu_code}
+</select>
+
+<select id="getFindHospitalDetail_1" resultType="ApiDTO">
+SELECT
+	ALZ_NO AS alz_no,
+	ALZ_NAME AS alz_name,
+	ALZ_TYPE AS alz_type,
+	ALZ_ADDR_ROAD AS alz_addr_road,
+	ALZ_TEL AS alz_tel,
+	ALZ_DOC AS alz_doc,
+	ALZ_NUR AS alz_nur,
+	ALZ_SW AS alz_sw,
+	ALZ_OTHER AS alz_other,
+	ALZ_PROGRAM AS alz_program,
+	ALZ_X AS alz_x,
+	ALZ_Y AS alz_y
+FROM
+	alz_center
+WHERE
+	alz_no=#{alz_no}
+</select>
+
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="poly.persistance.mapper.ReviewMapper">
+<insert id="insertReview" parameterType="ReviewDTO">
+	INSERT INTO alz_review
+	(
+		ALZ_NO,
+		USER_ID,
+		REVIEW_PAY,
+		REVIEW_SERVICE,
+		REVIEW_FACIL,
+		REVIEW_CONTENT,
+		REVIEW_REGDATE,
+		REVIEW_REGNO
+	) VALUES (
+		#{hospNo},
+		#{id},
+		#{reviewTreat},
+		#{reviewService},
+		#{reviewFacil},
+		#{reviewContent},
+		NOW(),
+		#{regNo}
+	)
+</insert>
+<select id="getReviewList" resultType="ReviewDTO">
+	SELECT
+		REVIEW_NO AS reviewNo,
+		ALZ_NO AS hospNo,
+		USER_ID AS id,
+		REVIEW_PAY AS reviewTreat,
+		REVIEW_SERVICE AS reviewService,
+		REVIEW_FACIL AS reviewFacil,
+		REVIEW_CONTENT AS reviewContent,
+		REVIEW_REGDATE AS regDate,
+		REVIEW_REGNO AS regNo
+	FROM
+		alz_review
+</select>
+<select id="getReviewListHosp" resultType="ReviewDTO">
+	SELECT
+		REVIEW_NO AS reviewNo,
+		ALZ_NO AS alz_no,
+		USER_ID AS id,
+		REVIEW_PAY AS reviewTreat,
+		REVIEW_SERVICE AS reviewService,
+		REVIEW_FACIL AS reviewFacil,
+		REVIEW_CONTENT AS reviewContent,
+		REVIEW_REGDATE AS regDate,
+		REVIEW_REGNO AS regNo
+	FROM
+		alz_review
+	WHERE
+		ALZ_NO = #{hospNo}
+</select>
+<select id="getReviewDetail" parameterType="ReviewDTO" resultType="ReviewDTO">
+	SELECT
+		REVIEW_NO AS reviewNo,
+		ALZ_NO AS hospNo,
+		USER_ID AS id,
+		REVIEW_CONTENT AS reviewContent,
+		REVIEW_REGDATE AS regDate,
+		REVIEW_REGNO AS regNo,
+		REVIEW_UPDDATE AS updDate,
+		REVIEW_UPDNO AS updNo
+	FROM
+		alz_review
+	WHERE
+		REVIEW_NO=#{reviewNo}
+</select>
+<update id="updateReview" parameterType="ReviewDTO">
+	UPDATE
+		alz_review
+	SET
+		REVIEW_PAY=#{reviewTreat},
+		REVIEW_SERVICE=#{reviewService},
+		REVIEW_FACIL=#{reviewFacil},
+		REVIEW_CONTENT=#{reviewContent},
+		REVIEW_UPDDATE=now(),
+		REVIEW_UPDNO=#{regNo}
+	WHERE
+		REVIEW_NO=#{reviewNo}
+</update>
+<delete id="reviewDel" parameterType="string">
+	DELETE
+	FROM
+		alz_review
+	WHERE
+		REVIEW_NO=#{reviewNo}
+</delete>
+
+</mapper>
